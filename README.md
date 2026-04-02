@@ -1,2 +1,2 @@
-# eggnog-mapper-java-DiamondOnly
+# eggnog-mapper-DiamondOnly (Pure Java)
 AAA
