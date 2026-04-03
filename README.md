@@ -9,6 +9,8 @@ The implemented workflow covers the following chain:
 
 `hits -> seed orthologs -> (optional) annotation -> (optional) orthologs`
 
+For an implementation-focused architecture and validation summary, see [TECHNICAL_OVERVIEW.md](TECHNICAL_OVERVIEW.md).
+
 ### Requirements
 
 Before running this program, make sure the following dependencies are available:
