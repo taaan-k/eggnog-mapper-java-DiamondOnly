@@ -63,7 +63,7 @@ Important defaults from `CliArgs`:
 - `mode=diamond`
 - `inputType=proteins`
 - `outputDir=current working directory`
-- `tempDir=current working directory`
+- `tempDir=<outputDir>/.tmp` unless `--temp_dir` is provided
 - `cpu=1`, but `--cpu 0` expands to all available processors
 - `evalue=0.001`
 - `sensmode=sensitive`
@@ -79,7 +79,9 @@ Important defaults from `CliArgs`:
 
 - choosing `blastp` for protein input
 - choosing `blastx` for CDS input unless `--translate` is enabled
+- rewriting input FASTA queries so each ID keeps only the first whitespace-delimited token from the header
 - optionally translating CDS into protein FASTA before search
+- creating a per-run random temp work directory under the configured temp parent directory
 - writing DIAMOND output to `<prefix>.emapper.hits`
 - writing DIAMOND stdout/stderr to `<prefix>.emapper.hits.diamond.log`
 
@@ -93,6 +95,10 @@ The search output is parsed into `Hit` objects. For each query, only the first o
 - identity
 - query coverage
 - subject coverage
+
+This means a header such as `>prot1 description text` is emitted downstream as query id `prot1` in `.hits`, `.seed_orthologs`, `.annotations`, and `.orthologs`.
+
+By default, the temp parent directory is `<outputDir>/.tmp`. Each run creates a random working directory inside it, passes that path to DIAMOND `--tmpdir`, and deletes the per-run working directory during cleanup.
 
 ### 3.3 Seed ortholog report
 

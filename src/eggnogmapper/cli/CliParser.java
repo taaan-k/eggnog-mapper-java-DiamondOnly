@@ -145,6 +145,9 @@ public class CliParser {
         if (out.outputPrefix == null || out.outputPrefix.isEmpty()) {
             throw new IllegalArgumentException("Missing -o/--output");
         }
+        if (out.tempDir == null || out.tempDir.trim().isEmpty()) {
+            out.tempDir = new File(out.outputDir, ".tmp").getPath();
+        }
         if (!"diamond".equalsIgnoreCase(out.mode)) {
             throw new IllegalArgumentException("Only -m diamond is supported in eggnog_java");
         }
@@ -179,12 +182,13 @@ public class CliParser {
         System.out.println("Usage:");
         System.out.println("  java Main -m diamond -i <input.fa> --itype proteins|CDS -o <out_prefix>");
         System.out.println("Options:");
+        System.out.println("  FASTA query IDs are normalized to the first whitespace-delimited token in each header");
         System.out.println("  --data_dir <dir>          eggnog-mapper data directory");
         System.out.println("  --output_dir <dir>        output directory");
         System.out.println("  --dmnd_db <path>          DIAMOND database path");
         System.out.println("  --diamond_bin <path>      diamond executable path");
         System.out.println("  --cpu <n>                 worker threads; 0 means all CPUs");
-        System.out.println("  --temp_dir <dir>          temp directory");
+        System.out.println("  --temp_dir <dir>          temp directory (default: <output_dir>/.tmp)");
         System.out.println("  --translate               when --itype CDS, translate input and run blastp");
         System.out.println("  --trans_table <code>      translation table code");
         System.out.println("  --sensmode <mode>         default|fast|mid-sensitive|sensitive|more-sensitive|very-sensitive|ultra-sensitive");

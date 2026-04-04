@@ -51,12 +51,13 @@ Tested species:
 java -jar eggnog_java.jar -m diamond -i <input.fa> --itype proteins|CDS -o <out_prefix>
 
 Options
+  FASTA query IDs are normalized to the first whitespace-delimited token in each header
   --data_dir <dir>          eggnog-mapper data directory
   --output_dir <dir>        output directory
   --dmnd_db <path>          DIAMOND database path
   --diamond_bin <path>      diamond executable path
   --cpu <n>                 worker threads; 0 means all CPUs
-  --temp_dir <dir>          temp directory
+  --temp_dir <dir>          temp directory (default: <output_dir>/.tmp)
   --translate               when --itype CDS, translate input and run blastp
   --trans_table <code>      translation table code
   --sensmode <mode>         default|fast|mid-sensitive|sensitive|more-sensitive|very-sensitive|ultra-sensitive
@@ -76,3 +77,8 @@ Options
   --resume                  reuse existing hits and append missing annotations
   --override                overwrite existing outputs
   --no_annot                skip annotation
+```
+
+Input FASTA headers are normalized before search. For a record such as `>prot1 description text`, the query ID used in DIAMOND and downstream `.emapper.*` outputs is `prot1`.
+
+If `--temp_dir` is not provided, temporary search files are created under `<output_dir>/.tmp`. Each run uses its own random working directory there and removes that per-run directory after completion, while leaving the `.tmp` parent directory in place.
